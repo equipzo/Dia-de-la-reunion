@@ -1,0 +1,49 @@
+<script type="module">
+    // Importa las funciones necesarias
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+  
+    // Configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyC3SPsFNp2ULE3jm6tL6i_m6zPuv1bKEIc",
+      authDomain: "dia-de-reunion.firebaseapp.com",
+      databaseURL: "https://dia-de-reunion-default-rtdb.firebaseio.com",
+      projectId: "dia-de-reunion",
+      storageBucket: "dia-de-reunion.appspot.com",
+      messagingSenderId: "535911524394",
+      appId: "1:535911524394:web:1ca3fbed4bb40df7b73b53",
+      measurementId: "G-WQB17ZDKM7"
+    };
+  
+    // Inicializa Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+  
+    // Función para guardar datos
+    window.guardarDatos = function() {
+      const name = document.getElementById('name').value;
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+  
+      if (!name || !date || !time) {
+        alert("Por favor, completa todos los campos.");
+        return;
+      }
+  
+      const id = new Date().getTime(); // Genera un ID único
+  
+      set(ref(database, 'meetings/' + id), {
+        name: name,
+        date: date,
+        time: time
+      })
+      .then(() => {
+        alert("Datos guardados correctamente");
+        document.getElementById('form').reset();
+      })
+      .catch((error) => {
+        alert("Error: " + error.message);
+      });
+    };
+  </script>
+  
